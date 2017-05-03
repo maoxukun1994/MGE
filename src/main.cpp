@@ -14,6 +14,8 @@ int main()
         std::cout<<"Video: "<<p.width<<"x"<<p.height<<" @"<<p.bitsPerPixel<<"bit per pixel"<<std::endl;
     }
 
+    //list
+
     // Create the main window
     sf::Window window(modes.front(),"MGE",sf::Style::Default,sf::ContextSettings(24,8,4,4,5,sf::ContextSettings::Core));
 
