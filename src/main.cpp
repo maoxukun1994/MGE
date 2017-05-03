@@ -28,7 +28,7 @@ int main()
     }
 
     //for measuring fps
-    int frameCount =0;
+    int frameCount =1;
     sf::Clock timer;
     timer.restart();
 
