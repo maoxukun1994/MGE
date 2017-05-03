@@ -9,7 +9,8 @@ SOURCES += \
     src/mge_glshaderprogram.cpp \
     src/mge_gltexture2d.cpp \
     src/mge_glprogrammanager.cpp \
-    src/mge_globalfunctions.cpp
+    src/mge_globalfunctions.cpp \
+    src/mge_image.cpp
 
 HEADERS += \
     src/mge_glbatchbase.h \
@@ -17,7 +18,8 @@ HEADERS += \
     src/mge_gltexture2d.h \
     src/mge_glprogrammanager.h \
     src/mge_global.h \
-    src/mge_globalfunction.h
+    src/mge_globalfunction.h \
+    src/mge_image.h
 
 #for dynamic link sfml library
 unix : LIBS += -L$$PWD/sfml/linux64/ -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system

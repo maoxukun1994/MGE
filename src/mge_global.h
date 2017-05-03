@@ -62,6 +62,7 @@ enum MGE_VATTRIBS
 };
 //enum MGE_VATTRIBS
 
+
 //error code list
 enum MGE_ERRORCODE
 {
