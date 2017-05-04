@@ -4,6 +4,7 @@
 #include "mge_glbatchbase.h"
 #include "mge_gltexture2d.h"
 #include "mge_glprogrammanager.h"
+#include "mge_gluniformmanager.h"
 
 int main()
 {

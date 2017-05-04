@@ -50,7 +50,7 @@ void MGE_GLUniformManager::registerLocalUniform(std::string name, MGE_UniformTyp
     else
     {
         //item not found.Register a new one.
-        m_uniforms.insert(std::make_pair(name,MGE_SingalUniform(type,pointer)));
+        m_uniforms.insert(std::make_pair(name,MGE_SingleUniform(type,pointer)));
     }
 
     m_uniforms_write_lock.unlock();
@@ -75,15 +75,16 @@ void MGE_GLUniformManager::unregisterLocalUniform(std::string name)
     m_uniforms_write_lock.unlock();
 }
 
-MGE_SingalUniform & MGE_GLUniformManager::getUniform(std::string name)
+MGE_SingleUniform MGE_GLUniformManager::getUniform(std::string name)
 {
     m_uniforms_write_lock.lock();
 
+    MGE_SingleUniform ret;
     auto item = m_uniforms.find(name);
     if(item != m_uniforms.end())
     {
         //found
-        return m_uniforms.at(name).second();
+        ret = item->second;
     }
     else
     {
@@ -91,6 +92,8 @@ MGE_SingalUniform & MGE_GLUniformManager::getUniform(std::string name)
     }
 
     m_uniforms_write_lock.unlock();
+
+    return ret;
 }
 
 
