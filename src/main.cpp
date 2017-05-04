@@ -56,9 +56,9 @@ int main()
 
 
     auto tex = new MGE_CORE::MGE_GLTexture2D();
-    tex->setMinFilterMethod(MGE_CORE::TextureFilterMethod::LINEAR_MIPMAP_LINEAR);
-    tex->setMagFilterMethod(MGE_CORE::TextureFilterMethod::LINEAR);
-    tex->loadImage("/home/maomao/Develop/Projects/Builds/mge-build/test.bmp");
+    tex->setMinFilterMethod(MGE_CORE::MGE_TextureFilterMethod::LINEAR_MIPMAP_LINEAR);
+    tex->setMagFilterMethod(MGE_CORE::MGE_TextureFilterMethod::LINEAR);
+    tex->loadImage("/home/maomao/Develop/Projects/Builds/mge-build/test.png");
     tex->bind();
 
     auto programMgr = MGE_CORE::MGE_GLProgramManager::getInstance();
@@ -126,9 +126,11 @@ int main()
         }
     }
 
+    window.setActive(false);
+
     delete batch;
     delete tex;
 
-    MGE_CORE::MGE_GlobalFunction::getInstance()->mgeQuitApp(MGE_CORE::MGE_ERRORCODE::NoError);
+    //MGE_CORE::MGE_GlobalFunction::getInstance()->mgeQuitApp(MGE_CORE::MGE_ERRORCODE::NoError);
     return 0;
 }

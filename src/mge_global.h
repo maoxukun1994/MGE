@@ -20,6 +20,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <unordered_map>
 
 
 //gl functions loader,need to be included BEFORE sfml or other gl tools
@@ -63,14 +64,14 @@ enum MGE_VATTRIBS
 //enum MGE_VATTRIBS
 
 //texture filter type
-enum TextureFilterType
+enum MGE_TextureFilterType
 {
     MIN_FILTER = 0,
     MAG_FILTER
 };
 
 //texture filter method
-enum TextureFilterMethod
+enum MGE_TextureFilterMethod
 {
     NEAREST = 0,
     LINEAR,
@@ -78,6 +79,22 @@ enum TextureFilterMethod
     NEAREST_MIPMAP_LINEAR,
     LINEAR_MIPMAP_NEAREST,
     LINEAR_MIPMAP_LINEAR
+};
+
+//uniform type
+enum MGE_UniformType
+{
+    NOTYPE = 0,
+    INT,
+    FLOAT,
+    DOUBLE,
+
+    VEC2,
+    VEC3,
+    VEC4,
+
+    MAT3,
+    MAT4,
 };
 
 

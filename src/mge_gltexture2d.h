@@ -15,8 +15,8 @@ class MGE_GLTexture2D
 protected:
 
     GLuint m_texId;
-    TextureFilterMethod m_minFilterMethod;
-    TextureFilterMethod m_magFilterMethod;
+    MGE_TextureFilterMethod m_minFilterMethod;
+    MGE_TextureFilterMethod m_magFilterMethod;
 
 public:
 
@@ -28,8 +28,8 @@ public:
 
     GLuint textureId();
 
-    void setMinFilterMethod(TextureFilterMethod method);
-    void setMagFilterMethod(TextureFilterMethod method);
+    void setMinFilterMethod(MGE_TextureFilterMethod method);
+    void setMagFilterMethod(MGE_TextureFilterMethod method);
 
     void bind();
 };

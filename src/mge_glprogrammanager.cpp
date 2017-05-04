@@ -20,12 +20,17 @@ MGE_GLProgramManager::~MGE_GLProgramManager()
     }
 }
 
+//use static varible
+MGE_GLProgramManager * MGE_GLProgramManager::m_instance = new MGE_GLProgramManager();
 MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
 {
-    static MGE_CORE::MGE_GLProgramManager m_instance;
-
-    return &m_instance;
+    return m_instance;
 }
+
+//MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
+//{
+//    return &m_instance;
+//}
 
 MGE_GLShaderProgram * MGE_GLProgramManager::getProgram(unsigned int id)
 {
