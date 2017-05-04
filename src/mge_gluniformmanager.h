@@ -16,6 +16,8 @@ typedef struct mgeuniform
 MGE_SingalUniform;
 
 //the uniform manager needs to be thread-safe
+//caution:
+//the design propose of this class is to provide a manageable uniform set
 class MGE_GLUniformManager
 {
 

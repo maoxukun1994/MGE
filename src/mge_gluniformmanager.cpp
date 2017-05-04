@@ -5,7 +5,6 @@ namespace MGE_CORE
 
 MGE_GLUniformManager::MGE_GLUniformManager()
 {
-
 }
 
 void MGE_GLUniformManager::framePassUpdate()
@@ -78,7 +77,20 @@ void MGE_GLUniformManager::unregisterLocalUniform(std::string name)
 
 MGE_SingalUniform & MGE_GLUniformManager::getUniform(std::string name)
 {
+    m_uniforms_write_lock.lock();
 
+    auto item = m_uniforms.find(name);
+    if(item != m_uniforms.end())
+    {
+        //found
+        return m_uniforms.at(name).second();
+    }
+    else
+    {
+        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Can not get uniform.Uniform not found.");
+    }
+
+    m_uniforms_write_lock.unlock();
 }
 
 
