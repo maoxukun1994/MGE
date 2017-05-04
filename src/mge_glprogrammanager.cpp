@@ -1,6 +1,7 @@
 #include "mge_glprogrammanager.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLProgramManager::MGE_GLProgramManager()
 {
@@ -19,12 +20,17 @@ MGE_GLProgramManager::~MGE_GLProgramManager()
     }
 }
 
+//use static varible
+MGE_GLProgramManager * MGE_GLProgramManager::m_instance = new MGE_GLProgramManager();
 MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
 {
-    static MGE_CORE::MGE_GLProgramManager m_instance;
-
-    return &m_instance;
+    return m_instance;
 }
+
+//MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
+//{
+//    return &m_instance;
+//}
 
 MGE_GLShaderProgram * MGE_GLProgramManager::getProgram(unsigned int id)
 {
@@ -51,3 +57,7 @@ int MGE_GLProgramManager::addProgram(MGE_GLShaderProgram * program)
     }
     return index;
 }
+
+
+}
+//namespace MGE_CORE

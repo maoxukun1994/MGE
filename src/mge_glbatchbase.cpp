@@ -1,6 +1,7 @@
 #include "mge_glbatchbase.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLBatchBase::MGE_GLBatchBase()
 {
@@ -558,3 +559,6 @@ void MGE_GLBatchBase::unsetAttrExpectStatusBit(MGE_VATTRIBS attribute)
 
     //*****************just on big edian arch
 }
+
+}
+//namespace MGE_CORE

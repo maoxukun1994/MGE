@@ -39,6 +39,7 @@ public:
     void use();
 
     //this will delete all shaders and destroy this program,put the class's status into original
+    //use carefully
     void resetShaderProgram();
 
     GLuint getProgramID();

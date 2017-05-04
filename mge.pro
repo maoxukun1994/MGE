@@ -10,7 +10,8 @@ SOURCES += \
     src/mge_gltexture2d.cpp \
     src/mge_glprogrammanager.cpp \
     src/mge_globalfunctions.cpp \
-    src/mge_image.cpp
+    src/mge_image.cpp \
+    src/mge_gluniformmanager.cpp
 
 HEADERS += \
     src/mge_glbatchbase.h \
@@ -19,7 +20,8 @@ HEADERS += \
     src/mge_glprogrammanager.h \
     src/mge_global.h \
     src/mge_globalfunction.h \
-    src/mge_image.h
+    src/mge_image.h \
+    src/mge_gluniformmanager.h
 
 #for dynamic link sfml library
 unix : LIBS += -L$$PWD/sfml/linux64/ -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
@@ -37,3 +39,6 @@ INCLUDEPATH += $$PWD/glm
 #dl for dynamic resolve function entrance in linux(for glad)
 #pthread for std::thread in linux
 unix : LIBS += -ldl -lpthread
+
+DISTFILES += \
+    README.md

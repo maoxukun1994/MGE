@@ -1,6 +1,7 @@
 #include "mge_gltexture2d.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLTexture2D::MGE_GLTexture2D()
 {
@@ -11,24 +12,23 @@ MGE_GLTexture2D::MGE_GLTexture2D()
     }
 
     m_texId = 0;
-    m_minFilterMethod = TextureFilterMethod::NEAREST;
-    m_magFilterMethod = TextureFilterMethod::NEAREST;
+    m_minFilterMethod = MGE_TextureFilterMethod::NEAREST;
+    m_magFilterMethod = MGE_TextureFilterMethod::NEAREST;
+}
+
+MGE_GLTexture2D::~MGE_GLTexture2D()
+{
+    //delete the underlying opengl texture and free resource
+    if(m_texId)
+    {
+        glDeleteTextures(1,&m_texId);
+    }
 }
 
 GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
 {
-    //try to load image
-    sf::Image img;
-    if(!img.loadFromFile(imagefile))
-    {
-        //load failed.
-        MGE_GlobalFunction::getInstance()->mgeQuitApp(TextureLoadFileRead);
-        return 0;
-    }
-    img.flipVertically();
-
     //check if texture is already created
-    if(m_texId != 0)
+    if(m_texId)
     {
         //unbind current texture in case current texture is this one
         glBindTexture(GL_TEXTURE_2D,0);
@@ -43,16 +43,16 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
     //set texture filter method
     switch(m_minFilterMethod)
     {
-    case TextureFilterMethod::NEAREST:
+    case MGE_TextureFilterMethod::NEAREST:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
         break;
-    case TextureFilterMethod::LINEAR:
+    case MGE_TextureFilterMethod::LINEAR:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         break;
-    case TextureFilterMethod::LINEAR_MIPMAP_NEAREST:
+    case MGE_TextureFilterMethod::LINEAR_MIPMAP_NEAREST:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST_MIPMAP_NEAREST);
         break;
-    case TextureFilterMethod::LINEAR_MIPMAP_LINEAR:
+    case MGE_TextureFilterMethod::LINEAR_MIPMAP_LINEAR:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
         break;
     default:
@@ -62,10 +62,10 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
 
     switch(m_magFilterMethod)
     {
-    case TextureFilterMethod::NEAREST:
+    case MGE_TextureFilterMethod::NEAREST:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
         break;
-    case TextureFilterMethod::LINEAR:
+    case MGE_TextureFilterMethod::LINEAR:
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         break;
     default:
@@ -73,9 +73,12 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
         break;
     }
 
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,img.getSize().x,img.getSize().y,0,GL_RGBA,GL_UNSIGNED_BYTE,img.getPixelsPtr());
-    glGenerateMipmap(GL_TEXTURE_2D);
+    //try load image
+    MGE_UTILITY::MGE_Image image(imagefile);
+    image.flipVertically();
 
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image.getWidth(),image.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,image.getPixelsPtr());
+    glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,0);
 
     //set id
@@ -89,12 +92,12 @@ GLuint MGE_GLTexture2D::textureId()
     return m_texId;
 }
 
-void MGE_GLTexture2D::setMinFilterMethod(TextureFilterMethod method)
+void MGE_GLTexture2D::setMinFilterMethod(MGE_TextureFilterMethod method)
 {
     m_minFilterMethod = method;
 }
 
-void MGE_GLTexture2D::setMagFilterMethod(TextureFilterMethod method)
+void MGE_GLTexture2D::setMagFilterMethod(MGE_TextureFilterMethod method)
 {
     m_magFilterMethod = method;
 }
@@ -103,3 +106,6 @@ void MGE_GLTexture2D::bind()
 {
     glBindTexture(GL_TEXTURE_2D,m_texId);
 }
+
+}
+//namespace MGE_CORE

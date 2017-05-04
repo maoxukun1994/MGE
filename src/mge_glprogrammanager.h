@@ -18,6 +18,8 @@ private:
 
     std::mutex m_program_vector_lock;
 
+    static MGE_GLProgramManager * m_instance;
+
 private:
 
     MGE_GLProgramManager();
