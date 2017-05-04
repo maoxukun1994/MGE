@@ -1,6 +1,7 @@
 #include "mge_glshaderprogram.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLShaderProgram::MGE_GLShaderProgram()
 {
@@ -220,3 +221,7 @@ void MGE_GLShaderProgram::deleteShaders()
     m_computeShader = 0;
     //TO BE FILLED
 }
+
+
+}
+//namespace MGE_CORE

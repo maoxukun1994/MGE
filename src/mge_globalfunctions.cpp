@@ -1,6 +1,7 @@
 #include "mge_globalfunction.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GlobalFunction::MGE_GlobalFunction()
 {
@@ -80,3 +81,7 @@ void MGE_GlobalFunction::mgeInfoMessage(const char * msg)
 {
     std::cout<<"INFO: "<<msg<<std::endl;
 }
+
+
+}
+//namespace MGE_CORE

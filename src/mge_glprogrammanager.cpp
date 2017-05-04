@@ -1,6 +1,7 @@
 #include "mge_glprogrammanager.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLProgramManager::MGE_GLProgramManager()
 {
@@ -51,3 +52,7 @@ int MGE_GLProgramManager::addProgram(MGE_GLShaderProgram * program)
     }
     return index;
 }
+
+
+}
+//namespace MGE_CORE

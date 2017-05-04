@@ -2,6 +2,7 @@
 #define MGE_GLTEXTURE2D_H
 
 #include "mge_globalfunction.h"
+#include "mge_image.h"
 
 //using namespace MGE_CORE
 namespace MGE_CORE

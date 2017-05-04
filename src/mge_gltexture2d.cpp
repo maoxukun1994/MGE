@@ -1,6 +1,7 @@
 #include "mge_gltexture2d.h"
 
-using namespace MGE_CORE;
+namespace MGE_CORE
+{
 
 MGE_GLTexture2D::MGE_GLTexture2D()
 {
@@ -17,16 +18,6 @@ MGE_GLTexture2D::MGE_GLTexture2D()
 
 GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
 {
-    //try to load image
-    sf::Image img;
-    if(!img.loadFromFile(imagefile))
-    {
-        //load failed.
-        MGE_GlobalFunction::getInstance()->mgeQuitApp(TextureLoadFileRead);
-        return 0;
-    }
-    img.flipVertically();
-
     //check if texture is already created
     if(m_texId != 0)
     {
@@ -73,10 +64,15 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
         break;
     }
 
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,img.getSize().x,img.getSize().y,0,GL_RGBA,GL_UNSIGNED_BYTE,img.getPixelsPtr());
-    glGenerateMipmap(GL_TEXTURE_2D);
+    //try load image
+    auto image = new MGE_UTILITY::MGE_Image(imagefile);
 
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->getWidth(),image->getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,image->getPixelsPtr());
+    glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,0);
+
+    //delete image
+    delete image;
 
     //set id
     m_texId = texture;
@@ -103,3 +99,6 @@ void MGE_GLTexture2D::bind()
 {
     glBindTexture(GL_TEXTURE_2D,m_texId);
 }
+
+}
+//namespace MGE_CORE
