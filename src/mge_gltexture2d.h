@@ -8,23 +8,6 @@
 namespace MGE_CORE
 {
 
-
-enum TextureFilterType
-{
-    MIN_FILTER = 0,
-    MAG_FILTER
-};
-
-enum TextureFilterMethod
-{
-    NEAREST = 0,
-    LINEAR,
-    NEAREST_MIPMAP_NEAREST,
-    NEAREST_MIPMAP_LINEAR,
-    LINEAR_MIPMAP_NEAREST,
-    LINEAR_MIPMAP_LINEAR
-};
-
 //currently using soil as image loader.
 class MGE_GLTexture2D
 {
@@ -38,6 +21,8 @@ protected:
 public:
 
     MGE_GLTexture2D();
+
+    ~MGE_GLTexture2D();
 
     GLuint loadImage(const char * imagefile);
 

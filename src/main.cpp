@@ -126,6 +126,9 @@ int main()
         }
     }
 
+    delete batch;
+    delete tex;
+
     MGE_CORE::MGE_GlobalFunction::getInstance()->mgeQuitApp(MGE_CORE::MGE_ERRORCODE::NoError);
     return 0;
 }

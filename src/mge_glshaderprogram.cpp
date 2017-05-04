@@ -25,7 +25,6 @@ MGE_GLShaderProgram::~MGE_GLShaderProgram()
 {
     if(m_shaderProgram)
     {
-        glUseProgram(0);
         glDeleteProgram(m_shaderProgram);
     }
     deleteShaders();

@@ -62,6 +62,25 @@ enum MGE_VATTRIBS
 };
 //enum MGE_VATTRIBS
 
+//texture filter type
+enum TextureFilterType
+{
+    MIN_FILTER = 0,
+    MAG_FILTER
+};
+
+//texture filter method
+enum TextureFilterMethod
+{
+    NEAREST = 0,
+    LINEAR,
+    NEAREST_MIPMAP_NEAREST,
+    NEAREST_MIPMAP_LINEAR,
+    LINEAR_MIPMAP_NEAREST,
+    LINEAR_MIPMAP_LINEAR
+};
+
+
 
 //error code list
 enum MGE_ERRORCODE

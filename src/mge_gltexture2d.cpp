@@ -16,10 +16,19 @@ MGE_GLTexture2D::MGE_GLTexture2D()
     m_magFilterMethod = TextureFilterMethod::NEAREST;
 }
 
+MGE_GLTexture2D::~MGE_GLTexture2D()
+{
+    //delete the underlying opengl texture and free resource
+    if(m_texId)
+    {
+        glDeleteTextures(1,&m_texId);
+    }
+}
+
 GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
 {
     //check if texture is already created
-    if(m_texId != 0)
+    if(m_texId)
     {
         //unbind current texture in case current texture is this one
         glBindTexture(GL_TEXTURE_2D,0);
@@ -65,14 +74,11 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
     }
 
     //try load image
-    auto image = new MGE_UTILITY::MGE_Image(imagefile);
+    MGE_UTILITY::MGE_Image image(imagefile);
 
-    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image->getWidth(),image->getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,image->getPixelsPtr());
+    glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image.getWidth(),image.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,image.getPixelsPtr());
     glGenerateMipmap(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D,0);
-
-    //delete image
-    delete image;
 
     //set id
     m_texId = texture;

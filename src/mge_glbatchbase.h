@@ -37,7 +37,7 @@ public:
     void enableBatchVertexAttrib(MGE_VATTRIBS attribute);
     void disableBatchVertexAttrib(MGE_VATTRIBS attribute,bool unsetData);
 
-    virtual void draw();
+    void draw();
 
 protected:
 
