@@ -118,6 +118,8 @@ int main()
         // Finally, display the rendered frame on screen
         window.display();
 
+        //fuck
+
         ++frameCount;
         if(frameCount > 300)
         {
