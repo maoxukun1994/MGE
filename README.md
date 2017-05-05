@@ -3,20 +3,30 @@ Multifunctional GL Engine
 
 The main purpose of this project is building a multifunctional graphics engine (or game engine in the future) for general use.
 
+Use QtCreator to open the pro file.Currently configured for windows mingw 32bit and linux gcc 64bit.
 
-issues:
+features (to be implemented):
 
-mgeQuitApp() ( which then call exit(x) )causes application to quit without cleaning memory.
+* Use C++11 and OpenGL 4.3+ (OpenGL ES 3.2 in the future)
+* Crossplatform portability(currently in Linux and Win32,planned for OsX,Android,Ios)
+* Multi thread
+* Flexible render pipe
+* Collision and physics system
+* Basic model loading and animation
 
+# MGE
+多功能GL引擎
 
-//uniform组织方式：
-MGE_GLUniformManager中存储所有引擎可提供的uniform变量值（引用？指针？）并提供动态注册和删除Uniform变量的函数
-其他类线程安全地更新其中的uniform值
-MGE_GLShaderProgram中声明Uniform Update List（可能有多个，固定间隔更新，单次更新，随帧重绘更新等）
-并把需要更新的uniform location 注册（关联）到MGE_GLUniformManager提供的变量上。在MGE_GLShaderProgram
-中更新这些uniform。
-MGE_GLUniform保留被引用Uniform的引用计数（被哪些shader使用），并在该Uniform更新（如删除或改变指针指向）时通知shader更新
+旨在构造一个通用的，多功能的图形（或游戏）引擎。
 
-features to be implemented:
+请使用QtCreator打开pro工程文件。目前对于qt在windows下的mingw版本和linux下64位gcc版本都已附带了预编译的第三方库。
+若使用其他平台或编译器，需要重新编译SFML的二进制文件。
 
-* use Uniform Buffer in MGE_GLUniformManager
+目标：
+
+* 使用C++11和OpenGL 4.3 + （后续提供OpenGL ES 3.2支持）
+* 跨平台可移植性（Linux,Win,OsX,Android,Ios）
+* 多线程
+* 可定制的渲染管线
+* 碰撞和物理系统
+* 基础的模型载入和动画

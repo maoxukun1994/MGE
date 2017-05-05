@@ -41,4 +41,5 @@ INCLUDEPATH += $$PWD/glm
 unix : LIBS += -ldl -lpthread
 
 DISTFILES += \
-    README.md
+    README.md \
+    issues.md
