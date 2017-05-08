@@ -53,7 +53,7 @@ int MGE_GLProgramManager::addProgram(MGE_GLShaderProgram * program)
     }
     else
     {
-        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Adding null shader program to program manager.");
+        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Not adding null shader program to program manager.");
     }
     return index;
 }
