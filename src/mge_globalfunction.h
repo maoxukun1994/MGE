@@ -46,4 +46,5 @@ public:
 //namespace MGE_CORE
 
 
-#endif
+#endif //MGE_GLOBALFUNCTION_H
+

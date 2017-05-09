@@ -409,19 +409,19 @@ void MGE_GLShaderProgram::updateUniform(MGE_ShaderUniform &target)
         glUniform1dv(target.location,1,((GLdouble *)target.data));
         break;
     case MGE_UniformType::VEC2:
-        glUniform2fv(target.location,2,((GLfloat *)target.data));
+        glUniform2fv(target.location,1,((GLfloat *)target.data));
         break;
     case MGE_UniformType::VEC3:
-        glUniform3fv(target.location,3,((GLfloat *)target.data));
+        glUniform3fv(target.location,1,((GLfloat *)target.data));
         break;
     case MGE_UniformType::VEC4:
-        glUniform4fv(target.location,4,((GLfloat *)target.data));
+        glUniform4fv(target.location,1,((GLfloat *)target.data));
         break;
     case MGE_UniformType::MAT3:
-        glUniformMatrix3fv(target.location,9,GL_FALSE,((GLfloat *)target.data));
+        glUniformMatrix3fv(target.location,1,GL_FALSE,((GLfloat *)target.data));
         break;
     case MGE_UniformType::MAT4:
-        glUniformMatrix4fv(target.location,16,GL_FALSE,((GLfloat *)target.data));
+        glUniformMatrix4fv(target.location,1,GL_FALSE,((GLfloat *)target.data));
         break;
     default:
         break;

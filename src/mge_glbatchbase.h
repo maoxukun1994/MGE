@@ -31,6 +31,7 @@ public:
     void setVertexPositionData(GLfloat * data,GLuint vertexCount);
     void setVertexNormalData(GLfloat * data,GLuint vertexCount);
     void setVertexColorData(GLfloat * data,GLuint vertexCount);
+    //textureChannal counts from 0
     void setVertexTUVData(GLfloat * data,GLuint vertexCount,GLuint textureChannal);
 
     //if attribute set to MGE_VATTRIB_LAST,will disable all attributes

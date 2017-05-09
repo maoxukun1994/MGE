@@ -11,7 +11,8 @@ SOURCES += \
     src/mge_glprogrammanager.cpp \
     src/mge_globalfunctions.cpp \
     src/mge_image.cpp \
-    src/mge_gluniformmanager.cpp
+    src/mge_gluniformmanager.cpp \
+    src/mge_glcamera.cpp
 
 HEADERS += \
     src/mge_glbatchbase.h \
@@ -21,7 +22,9 @@ HEADERS += \
     src/mge_global.h \
     src/mge_globalfunction.h \
     src/mge_image.h \
-    src/mge_gluniformmanager.h
+    src/mge_gluniformmanager.h \
+    src/mge_math.h \
+    src/mge_glcamera.h
 
 #for dynamic link sfml library
 unix : LIBS += -L$$PWD/sfml/linux64/ -lsfml-graphics -lsfml-window -lsfml-audio -lsfml-network -lsfml-system
@@ -45,4 +48,7 @@ DISTFILES += \
     issues.md \
     others/test.vert \
     others/test.config \
-    others/test.frag
+    others/test.frag \
+    others/basic.config \
+    others/basic.frag \
+    others/basic.vert

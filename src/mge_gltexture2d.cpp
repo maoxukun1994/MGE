@@ -75,7 +75,7 @@ GLuint MGE_GLTexture2D::loadImage(const char * imagefile)
 
     //try load image
     MGE_UTILITY::MGE_Image image(imagefile);
-    image.flipVertically();
+    //image.flipVertically();
 
     glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,image.getWidth(),image.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,image.getPixelsPtr());
     glGenerateMipmap(GL_TEXTURE_2D);

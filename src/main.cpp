@@ -5,6 +5,7 @@
 #include "mge_gltexture2d.h"
 #include "mge_glprogrammanager.h"
 #include "mge_gluniformmanager.h"
+#include "mge_glcamera.h"
 
 int main()
 {
@@ -37,17 +38,78 @@ int main()
     window.setActive();
     window.setVerticalSyncEnabled(true);
 
+
+    //initialize camera
+    auto cam = new MGE_CORE::MGE_GLFpsCamera();
+    cam->setPosition(glm::vec3(0.0f,0.0f,2.0f));
+    cam->setForward(glm::vec3(0.0f,1.0f,-1.0f));
+    cam->setUp(glm::vec3(0.0f,0.0f,1.0f));
+    cam->perspective(45.0f,1.799f,0.01f,1000.0f);
+    cam->update();
+    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("vMatrix",MGE_CORE::MGE_UniformType::MAT4,cam->getVMatrixPtr());
+    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("pMatrix",MGE_CORE::MGE_UniformType::MAT4,cam->getPMatrixPtr());
+    glm::mat4x4 mMatrix;
+    mMatrix = glm::translate(mMatrix,glm::vec3(0.0f,2.0f,0.0f));
+    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("mMatrix",MGE_CORE::MGE_UniformType::MAT4,glm::value_ptr(mMatrix));
+
+
     //initialize resources
-    GLfloat verts[] = {-1.0f,-1.0f,0.0f,1.0f,-1.0f,0.0f,0.0f,1.0f,0.0f};
-    GLfloat colors[] = {1.0f,0.0f,0.0f,1.0f,0.0f,1.0f,0.0f,1.0f,0.0f,0.0f,1.0f,1.0f};
-    GLfloat tuvs[] = {0.0f,0.0f,1.0,0.0,0.5f,1.0f};
+    GLfloat verts[] = {
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+
+        -0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f, -0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+
+        -0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f, -0.5f,
+         0.5f, -0.5f,  0.5f,
+         0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f,  0.5f,
+        -0.5f, -0.5f, -0.5f,
+
+        -0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f, -0.5f,
+         0.5f,  0.5f,  0.5f,
+         0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f,  0.5f,
+        -0.5f,  0.5f, -0.5f,
+    };
+    GLfloat tuvs[] = {
+        0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,0.0f, 1.0f,0.0f, 0.0f,
+        0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,0.0f, 1.0f,0.0f, 0.0f,
+        1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,0.0f, 0.0f,1.0f, 0.0f,
+        1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,0.0f, 0.0f,1.0f, 0.0f,
+        0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,0.0f, 0.0f,0.0f, 1.0f,
+        0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f,0.0f, 0.0f,0.0f, 1.0f
+    };
     auto batch = new MGE_CORE::MGE_GLBatchBase();
     batch->enableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_POSITION);
-    batch->enableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_COLOR);
     batch->enableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_TUV_0);
-    batch->setVertexPositionData(verts,3);
-    batch->setVertexColorData(colors,3);
-    batch->setVertexTUVData(tuvs,3,0);
+    batch->setVertexPositionData(verts,36);
+    batch->setVertexTUVData(tuvs,36,0);
 
     auto tex = new MGE_CORE::MGE_GLTexture2D();
     tex->setMinFilterMethod(MGE_CORE::MGE_TextureFilterMethod::LINEAR_MIPMAP_LINEAR);
@@ -56,14 +118,12 @@ int main()
     tex->bind();
 
     int sampler = 0;
-    float rad = 0.0f;
-    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("rad",MGE_CORE::MGE_UniformType::FLOAT,&rad);
     MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("tex",MGE_CORE::MGE_UniformType::INT,&sampler);
 
     auto program = new MGE_CORE::MGE_GLShaderProgram();
-    program->addShaderSourceFile(GL_VERTEX_SHADER,"test.vert");
-    program->addShaderSourceFile(GL_FRAGMENT_SHADER,"test.frag");
-    program->setShaderConfigFile("test.config");
+    program->addShaderSourceFile(GL_VERTEX_SHADER,"basic.vert");
+    program->addShaderSourceFile(GL_FRAGMENT_SHADER,"basic.frag");
+    program->setShaderConfigFile("basic.config");
     program->linkProgram();
     program->use();
     MGE_CORE::MGE_GLProgramManager::getInstance()->addProgram(program);
@@ -71,7 +131,8 @@ int main()
 
     //gl parameters
     glFrontFace(GL_CCW);
-    glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
 
     // Start the game loop
     while (window.isOpen())
@@ -92,11 +153,11 @@ int main()
             if (event.type == sf::Event::Resized)
                 glViewport(0, 0, event.size.width, event.size.height);
 
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::C))
-                batch->disableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_COLOR,false);
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::U))
+                batch->disableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_TUV_0,false);
 
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::V))
-                batch->enableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_COLOR);
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::T))
+                batch->enableBatchVertexAttrib(MGE_CORE::MGE_VATTRIB_TUV_0);
         }
 
         // Clear the color and depth buffers
@@ -104,10 +165,11 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
+        mMatrix = glm::rotate(mMatrix,0.02f,glm::vec3(0.0f,0.0f,1.0f));
         tex->bind();
         MGE_CORE::MGE_GLProgramManager::getInstance()->getProgram(0)->use();
+        cam->update();
         batch->draw();
-        rad += 0.02f;
 
         // Finally, display the rendered frame on screen
         window.display();
