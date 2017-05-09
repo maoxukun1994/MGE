@@ -27,11 +27,6 @@ MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
     return m_instance;
 }
 
-//MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
-//{
-//    return &m_instance;
-//}
-
 MGE_GLShaderProgram * MGE_GLProgramManager::getProgram(unsigned int id)
 {
     if(id < m_programs.size())

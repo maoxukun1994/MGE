@@ -6,20 +6,11 @@
 namespace MGE_CORE
 {
 
-typedef struct mgeuniform
-{
-    MGE_UniformType type;
-    void * dataPointer;
-    //constructor
-    mgeuniform(MGE_UniformType utype = NOTYPE,void * udataPointer = nullptr):type(utype),dataPointer(udataPointer){}
-}
-MGE_SingleUniform;
-
 //the uniform manager needs to be thread-safe
 //caution:
 //the design propose of this class is to provide a manageable uniform set
 //but not to assure the status of uniform data pointers.
-//the class will NOT take over ownership of any dataPointer of MGE_SingleUniforms
+//the class will NOT take over ownership of any dataPointer of MGE_HostUniforms
 //so it's other classes' responsibility to assure they don't change the pointer,or
 //called proper functions(such as unregister..etc.)to inform the class that the uniform pointer
 //has changed.
@@ -30,7 +21,7 @@ private:
 
     static MGE_GLUniformManager * m_instance;
 
-    std::unordered_map<std::string,MGE_SingleUniform> m_uniforms;
+    std::unordered_map<std::string,MGE_HostUniform> m_uniforms;
 
     std::mutex m_uniforms_write_lock;
 
@@ -50,11 +41,15 @@ public:
 
     static MGE_GLUniformManager * getInstance();
 
-    void registerLocalUniform(std::string name,MGE_UniformType type,void * pointer);
+    void registerHostUniform(std::string name,MGE_UniformType type,void * pointer);
 
-    void unregisterLocalUniform(std::string name);
+    void unregisterHostUniform(std::string name);
 
-    MGE_SingleUniform getUniform(std::string name);
+    bool bindShaderUniform(MGE_ShaderUniform &uniform);
+
+    void unbindShaderUniform(MGE_ShaderUniform &uniform);
+
+    MGE_HostUniform getUniform(std::string name);
 };
 
 

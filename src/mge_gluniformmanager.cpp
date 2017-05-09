@@ -29,7 +29,7 @@ MGE_GLUniformManager * MGE_GLUniformManager::getInstance()
     return m_instance;
 }
 
-void MGE_GLUniformManager::registerLocalUniform(std::string name, MGE_UniformType type, void * pointer)
+void MGE_GLUniformManager::registerHostUniform(std::string name, MGE_UniformType type, void * pointer)
 {
     m_uniforms_write_lock.lock();
 
@@ -50,14 +50,14 @@ void MGE_GLUniformManager::registerLocalUniform(std::string name, MGE_UniformTyp
     else
     {
         //item not found.Register a new one.
-        m_uniforms.insert(std::make_pair(name,MGE_SingleUniform(type,pointer)));
+        m_uniforms.insert(std::make_pair(name,MGE_HostUniform(type,pointer)));
     }
 
     m_uniforms_write_lock.unlock();
     return;
 }
 
-void MGE_GLUniformManager::unregisterLocalUniform(std::string name)
+void MGE_GLUniformManager::unregisterHostUniform(std::string name)
 {
     m_uniforms_write_lock.lock();
 
@@ -65,7 +65,15 @@ void MGE_GLUniformManager::unregisterLocalUniform(std::string name)
     if(item != m_uniforms.end())
     {
         //found
-        m_uniforms.erase(item);
+        //check reference count
+        if(item->second.refCount != 0)
+        {
+            MGE_GlobalFunction::getInstance()->mgeWarnMessage("Can not unregister uniform that holds references.");
+        }
+        else
+        {
+            m_uniforms.erase(item);
+        }
     }
     else
     {
@@ -75,11 +83,58 @@ void MGE_GLUniformManager::unregisterLocalUniform(std::string name)
     m_uniforms_write_lock.unlock();
 }
 
-MGE_SingleUniform MGE_GLUniformManager::getUniform(std::string name)
+bool MGE_GLUniformManager::bindShaderUniform(MGE_ShaderUniform &uniform)
 {
     m_uniforms_write_lock.lock();
 
-    MGE_SingleUniform ret;
+    bool ret = false;
+
+    auto item = m_uniforms.find(uniform.name);
+    if(item != m_uniforms.end())
+    {
+        //found
+        //link pointer
+        uniform.data = item->second.dataPointer;
+        //increase reference count
+        ++(item->second.refCount);
+        ret = true;
+    }
+    else
+    {
+        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Uniform not found in uniformManager.Can not bind.");
+    }
+
+    m_uniforms_write_lock.unlock();
+
+    return ret;
+}
+
+void MGE_GLUniformManager::unbindShaderUniform(MGE_ShaderUniform &uniform)
+{
+    m_uniforms_write_lock.lock();
+
+    auto item = m_uniforms.find(uniform.name);
+    if(item != m_uniforms.end())
+    {
+        //found
+        //unlink pointer
+        uniform.data = nullptr;
+        //remove reference count
+        --(item->second.refCount);
+    }
+    else
+    {
+        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Uniform not found in uniformManager.Can not unbind.");
+    }
+
+    m_uniforms_write_lock.unlock();
+}
+
+MGE_HostUniform MGE_GLUniformManager::getUniform(std::string name)
+{
+    m_uniforms_write_lock.lock();
+
+    MGE_HostUniform ret;
     auto item = m_uniforms.find(name);
     if(item != m_uniforms.end())
     {

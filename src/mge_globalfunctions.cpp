@@ -53,6 +53,9 @@ void MGE_GlobalFunction::mgeQuitApp(MGE_CORE::MGE_ERRORCODE errorCode)
     case MGE_CORE::MGE_ERRORCODE::ShaderFileRead:
         std::cout<<"Application quit with error : ShaderFileRead"<<std::endl;
         break;
+    case MGE_CORE::MGE_ERRORCODE::ShaderConfigRead:
+        std::cout<<"Application quit with error : ShaderConfigRead"<<std::endl;
+        break;
     case MGE_CORE::MGE_ERRORCODE::TextureLoadFileRead:
         std::cout<<"Application quit with error : TextureLoadFileRead"<<std::endl;
         break;

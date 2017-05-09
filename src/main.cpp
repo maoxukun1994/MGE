@@ -16,7 +16,7 @@ int main()
     }
 
     // Create the main window
-    sf::Window window(modes.front(),"MGE",sf::Style::Default,sf::ContextSettings(24,8,4,4,5,sf::ContextSettings::Core));
+    sf::Window window(modes.front(),"MGE",sf::Style::Fullscreen,sf::ContextSettings(24,8,4,4,5,sf::ContextSettings::Core));
 
     //load opengl functions
     if(!gladLoadGL())
@@ -49,30 +49,25 @@ int main()
     batch->setVertexColorData(colors,3);
     batch->setVertexTUVData(tuvs,3,0);
 
-    const char * vs = "#version 450 core\nlayout (location = 0) in vec3 position;\nlayout (location = 2) in vec4 color;\nout vec4 vcolor;\nvoid main()\n{\ngl_Position = vec4(position.x,position.y,position.z,1.0);\nvcolor=color;\n}\n";
-    const char * fs = "#version 450 core\nin vec4 vcolor;\nout vec4 fragColor;\nvoid main()\n{\nfragColor = vcolor;\n}\n";
-    const char * vst = "#version 450 core\nlayout (location = 0) in vec3 position;\nlayout (location = 3) in vec2 diffuseTextureUV;\nout vec2 tuv;\nuniform float rad;\nvoid main()\n{\nvec3 npos;\nnpos.x=position.x*cos(rad)-position.y*sin(rad);\nnpos.y=position.x*sin(rad)+position.y*cos(rad);\nnpos.z=0.0f;\ngl_Position = vec4(npos,1.0f);\ntuv = diffuseTextureUV;\n}\n" ;
-    const char * fst = "#version 450 core\nuniform sampler2D tex;\nin vec2 tuv;\nout vec4 color;\nvoid main()\n{\ncolor = vec4(texture(tex,tuv));\n}\n";
-
-
-
     auto tex = new MGE_CORE::MGE_GLTexture2D();
     tex->setMinFilterMethod(MGE_CORE::MGE_TextureFilterMethod::LINEAR_MIPMAP_LINEAR);
     tex->setMagFilterMethod(MGE_CORE::MGE_TextureFilterMethod::LINEAR);
     tex->loadImage("/home/maomao/Develop/Projects/Builds/mge-build/test.png");
     tex->bind();
 
-    auto programMgr = MGE_CORE::MGE_GLProgramManager::getInstance();
+    int sampler = 0;
+    float rad = 0.0f;
+    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("rad",MGE_CORE::MGE_UniformType::FLOAT,&rad);
+    MGE_CORE::MGE_GLUniformManager::getInstance()->registerHostUniform("tex",MGE_CORE::MGE_UniformType::INT,&sampler);
+
     auto program = new MGE_CORE::MGE_GLShaderProgram();
-    program->addShaderSource(GL_VERTEX_SHADER,vst);
-    program->addShaderSource(GL_FRAGMENT_SHADER,fst);
+    program->addShaderSourceFile(GL_VERTEX_SHADER,"test.vert");
+    program->addShaderSourceFile(GL_FRAGMENT_SHADER,"test.frag");
+    program->setShaderConfigFile("test.config");
     program->linkProgram();
     program->use();
-    programMgr->addProgram(program);
-    GLuint uniformlocation = glGetUniformLocation(program->getProgramID(),"tex");
-    GLuint uniformlocation_1 = glGetUniformLocation(program->getProgramID(),"rad");
-    float rad = 0.0f;
-    glUniform1i(uniformlocation,0);
+    MGE_CORE::MGE_GLProgramManager::getInstance()->addProgram(program);
+
 
     //gl parameters
     glFrontFace(GL_CCW);
@@ -109,9 +104,8 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
-        MGE_CORE::MGE_GLProgramManager::getInstance()->getProgram(0)->use();
-        glUniform1f(uniformlocation_1,rad);
         tex->bind();
+        MGE_CORE::MGE_GLProgramManager::getInstance()->getProgram(0)->use();
         batch->draw();
         rad += 0.02f;
 

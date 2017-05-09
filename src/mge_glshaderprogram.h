@@ -2,6 +2,7 @@
 #define MGE_GLSHADERPROGRAM_H
 
 #include "mge_globalfunction.h"
+#include "mge_gluniformmanager.h"
 
 //using namespace MGE_CORE
 namespace MGE_CORE
@@ -21,12 +22,19 @@ private:
     GLuint m_fragmentShader;
     GLuint m_computeShader;
 
+    //shader config file name
+    std::string m_configFileName;
+
     //record error infomation
     GLchar m_infoLog[MGE_SHADER_INFO_BUFFERSIZE];
 
-private:
+    //used in config file read
+    char m_fileLineBuffer[MGE_SHADER_CONFIG_LINE_BUFFERSIZE];
 
-    void deleteShaders();
+    //uniforms
+    std::list<MGE_ShaderUniform> m_frameUpdateUniforms;
+    std::list<MGE_ShaderUniform> m_fixedTimeUpdateUniforms;
+    std::list<MGE_ShaderUniform> m_updateWhenUseUniforms;
 
 public:
 
@@ -35,14 +43,25 @@ public:
 
     void addShaderSource(GLenum shaderType,const char * shaderSource);
     void addShaderSourceFile(GLenum shaderType,const char * shaderFileName);
+    void setShaderConfigFile(std::string filename);
     void linkProgram();
     void use();
+
+    void update_frame();
+    void update_fixed();
+    void update_once();
 
     //this will delete all shaders and destroy this program,put the class's status into original
     //use carefully
     void resetShaderProgram();
 
     GLuint getProgramID();
+
+protected:
+
+    void deleteShaders();
+    void setupUniforms();
+    void updateUniform(MGE_ShaderUniform &target);
 };
 //class MGE_GLShaderProgram
 
