@@ -42,4 +42,7 @@ unix : LIBS += -ldl -lpthread
 
 DISTFILES += \
     README.md \
-    issues.md
+    issues.md \
+    others/test.vert \
+    others/test.config \
+    others/test.frag

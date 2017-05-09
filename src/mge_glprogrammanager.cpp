@@ -27,11 +27,6 @@ MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
     return m_instance;
 }
 
-//MGE_GLProgramManager * MGE_GLProgramManager::getInstance()
-//{
-//    return &m_instance;
-//}
-
 MGE_GLShaderProgram * MGE_GLProgramManager::getProgram(unsigned int id)
 {
     if(id < m_programs.size())
@@ -53,7 +48,7 @@ int MGE_GLProgramManager::addProgram(MGE_GLShaderProgram * program)
     }
     else
     {
-        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Adding null shader program to program manager.");
+        MGE_GlobalFunction::getInstance()->mgeWarnMessage("Not adding null shader program to program manager.");
     }
     return index;
 }

@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <cassert>
 //stdc++
+#include <list>
 #include <mutex>
 #include <thread>
 #include <fstream>
@@ -40,6 +41,8 @@
 #define MGE_MAX_TUV_SET_PER_BATCH 4
 //buffer size for shader error message
 #define MGE_SHADER_INFO_BUFFERSIZE 1024
+//buffer size for shader config file line
+#define MGE_SHADER_CONFIG_LINE_BUFFERSIZE 128
 //the initial size of vector in mge_glprogrammanager,to avoid reallocate of vector
 #define MGE_SHADER_CONTAINER_INITSIZE 64
 
@@ -97,7 +100,33 @@ enum MGE_UniformType
     MAT4,
 };
 
+typedef struct mgeuniform_h
+{
+    MGE_UniformType type;
+    void * dataPointer;
+    unsigned int refCount;
+    //constructor
+    mgeuniform_h(MGE_UniformType utype = NOTYPE,void * udataPointer = nullptr):type(utype),dataPointer(udataPointer),refCount(0){}
+}
+MGE_HostUniform;
 
+typedef struct mgeuniform_s
+{
+    std::string name;
+    MGE_UniformType type;
+    void * data;
+    GLint location;
+    //constructor
+    mgeuniform_s():name(""),type(MGE_UniformType::NOTYPE),data(nullptr),location(0){}
+}
+MGE_ShaderUniform;
+
+enum MGE_UniformUpdateType
+{
+    FRAME_UPDATE = 0,
+    FIX_UPDATE,
+    ONCE_UPDATE
+};
 
 //error code list
 enum MGE_ERRORCODE
@@ -110,9 +139,11 @@ enum MGE_ERRORCODE
     ShaderCompileCompute,
     ShaderLink,
     ShaderFileRead,
+    ShaderConfigRead,
     TextureLoadFileRead,
 };
 //enum MGE_ERRORCODE
+
 
 }
 //in namespace MGE_CORE
