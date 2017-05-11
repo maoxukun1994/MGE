@@ -49,6 +49,8 @@ public:
 
     void update_frame();
     void update_fixed();
+
+    //will only be called in linkProgram() by itself
     void update_once();
 
     //this will delete all shaders and destroy this program,put the class's status into original

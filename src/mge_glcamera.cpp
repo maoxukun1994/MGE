@@ -6,12 +6,12 @@ namespace MGE_CORE
 
 MGE_GLCamera::MGE_GLCamera()
 {
-    m_position = glm::vec3(0.0f,0.0f,0.0f);
-    m_up = glm::vec3(0.0f,0.0f,1.0f);
-    m_forward = glm::vec3(0.0f,1.0f,0.0f);
+    m_position = Vec3(0.0f,0.0f,0.0f);
+    m_up = Vec3(0.0f,0.0f,1.0f);
+    m_forward = Vec3(0.0f,1.0f,0.0f);
 }
 
-MGE_GLCamera::MGE_GLCamera(glm::vec3 pos,glm::vec3 up,glm::vec3 forward)
+MGE_GLCamera::MGE_GLCamera(Vec3 pos,Vec3 up,Vec3 forward)
 {
     m_position = pos;
     m_up = up;
@@ -23,32 +23,32 @@ MGE_GLCamera::~MGE_GLCamera()
 
 }
 
-void MGE_GLCamera::setPosition(glm::vec3 pos)
+void MGE_GLCamera::setPosition(Vec3 pos)
 {
     m_position = pos;
 }
 
-void MGE_GLCamera::setForward(glm::vec3 forward)
+void MGE_GLCamera::setForward(Vec3 forward)
 {
     m_forward = forward;
 }
 
-void MGE_GLCamera::setUp(glm::vec3 up)
+void MGE_GLCamera::setUp(Vec3 up)
 {
     m_up = up;
 }
 
-glm::vec3 MGE_GLCamera::getPosition()
+Vec3 MGE_GLCamera::getPosition()
 {
     return m_position;
 }
 
-glm::vec3 MGE_GLCamera::getForward()
+Vec3 MGE_GLCamera::getForward()
 {
     return m_forward;
 }
 
-glm::vec3 MGE_GLCamera::getUp()
+Vec3 MGE_GLCamera::getUp()
 {
     return m_up;
 }

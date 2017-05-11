@@ -19,8 +19,6 @@ class MGE_GLUniformManager
 
 private:
 
-    static MGE_GLUniformManager * m_instance;
-
     std::unordered_map<std::string,MGE_HostUniform> m_uniforms;
 
     std::mutex m_uniforms_write_lock;

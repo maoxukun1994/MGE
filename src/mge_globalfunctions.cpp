@@ -38,6 +38,9 @@ void MGE_GlobalFunction::mgeQuitApp(MGE_CORE::MGE_ERRORCODE errorCode)
     case MGE_CORE::MGE_ERRORCODE::GLUnInitialized:
         std::cout<<"Application quit with error : GLUnInitialized"<<std::endl;
         break;
+    case MGE_CORE::MGE_ERRORCODE::WindowUnInitialized:
+        std::cout<<"Application quit with error : WindowUnInitialized"<<std::endl;
+        break;
     case MGE_CORE::MGE_ERRORCODE::ShaderCompileVertex:
         std::cout<<"Application quit with error : ShaderCompileVertex"<<std::endl;
         break;

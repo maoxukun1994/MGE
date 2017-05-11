@@ -13,25 +13,25 @@ class MGE_GLCamera
 
 protected:
 
-    glm::vec3 m_position;
-    glm::vec3 m_up;
-    glm::vec3 m_forward;
+    Vec3 m_position;
+    Vec3 m_up;
+    Vec3 m_forward;
 
 public:
 
     MGE_GLCamera();
 
-    MGE_GLCamera(glm::vec3 pos,glm::vec3 up,glm::vec3 forward);
+    MGE_GLCamera(Vec3 pos,Vec3 up,Vec3 forward);
 
-    ~MGE_GLCamera();
+    virtual ~MGE_GLCamera();
 
-    void setPosition(glm::vec3 pos);
-    void setForward(glm::vec3 forward);
-    void setUp(glm::vec3 up);
+    void setPosition(Vec3 pos);
+    void setForward(Vec3 forward);
+    void setUp(Vec3 up);
 
-    glm::vec3 getPosition();
-    glm::vec3 getForward();
-    glm::vec3 getUp();
+    Vec3 getPosition();
+    Vec3 getForward();
+    Vec3 getUp();
 
     virtual void update();
 
@@ -43,8 +43,8 @@ class MGE_GLFpsCamera : public MGE_GLCamera
 
 public:
 
-    glm::mat4x4 m_vMatrix;
-    glm::mat4x4 m_pMatrix;
+    Mat4 m_vMatrix;
+    Mat4 m_pMatrix;
 
 public:
 

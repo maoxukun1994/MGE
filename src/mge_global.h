@@ -37,6 +37,13 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Network.hpp>
 
+
+//platform specfic headers
+#ifdef __gnu_linux__
+#include <X11/Xlib.h>
+#endif
+
+
 //do not change this value
 #define MGE_MAX_TUV_SET_PER_BATCH 4
 //buffer size for shader error message
@@ -134,6 +141,7 @@ enum MGE_ERRORCODE
     NoError = 0,
     GLLoadError,
     GLUnInitialized,
+    WindowUnInitialized,
     ShaderCompileVertex,
     ShaderCompileFragment,
     ShaderCompileCompute,

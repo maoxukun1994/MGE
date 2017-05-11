@@ -22,11 +22,10 @@ MGE_GLUniformManager::~MGE_GLUniformManager()
 
 }
 
-MGE_GLUniformManager * MGE_GLUniformManager::m_instance = new MGE_GLUniformManager();
-
 MGE_GLUniformManager * MGE_GLUniformManager::getInstance()
 {
-    return m_instance;
+    static MGE_GLUniformManager m_instance;
+    return &m_instance;
 }
 
 void MGE_GLUniformManager::registerHostUniform(std::string name, MGE_UniformType type, void * pointer)
